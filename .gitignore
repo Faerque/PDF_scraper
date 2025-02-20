@@ -10,8 +10,8 @@ __pycache__/
 data/pdf_data.db
 
 # Ignore log files
-data/scraper.log
-data/output.txt
+scraper.log
+output.txt
 
 # Ignore environment files
 .env
