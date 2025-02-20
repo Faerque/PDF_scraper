@@ -1,0 +1,36 @@
+# Ignore Python virtual environment
+venv/
+
+# Ignore compiled Python files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore SQLite database files
+data/pdf_data.db
+
+# Ignore log files
+data/scraper.log
+data/output.txt
+
+# Ignore environment files
+.env
+
+# Ignore dependency caches
+pip-wheel-metadata/
+
+# Ignore IDE and editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Ignore build files
+dist/
+build/
+*.egg-info/
+
+# Ignore Pipenv files if using pip
+target/
+Pipfile

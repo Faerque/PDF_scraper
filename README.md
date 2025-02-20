@@ -11,6 +11,7 @@ This project automates the extraction of text from PDFs in a given directory and
 - Stores extracted text in an SQLite database for structured access.
 - Provides a CLI-based execution for ease of use.
 - Ensures modular and scalable code architecture.
+- Implements **logging** to track processing steps and errors.
 
 ## 🛠️ Why PyMuPDF?
 
@@ -34,6 +35,24 @@ This tool is best suited for extracting text from:
 - **Encrypted or Restricted PDFs:** May not extract text from protected PDFs unless permissions allow it.
 - **Poorly Formatted PDFs:** May struggle with extracting correctly structured text from heavily formatted PDFs with complex layouts.
 
+## 📑 Logging System
+
+The project includes a **logging system** to track operations in real-time and store them in `scraper.log`.
+
+### 📌 Why Logging?
+
+- ✅ Tracks each step of execution (PDF scanning, extraction, database storage).
+- ✅ Records errors and warnings for debugging.
+- ✅ Provides timestamps for process tracking.
+
+### 📄 Logging Implementation
+
+- **Log File**: All logs are stored in `scraper.log`.
+- **Logging Levels**:
+  - `INFO` → Tracks normal operations.
+  - `WARNING` → Logs non-critical issues (e.g., duplicate PDFs).
+  - `ERROR` → Captures failures (e.g., file read errors).
+
 ## 🤖 Why PDF Text Extraction is Important?
 
 PDF text extraction is crucial for:
@@ -50,6 +69,7 @@ PDF text extraction is crucial for:
 │── extractor.py       # Extracts text from PDFs
 │── processor.py       # Scans directory and processes PDFs
 │── database.py        # Handles SQLite database interactions
+│── logger.py # Manages logging system
 │── main.py            # CLI entry point for execution
 │── requirements.txt   # Dependencies
 │── README.md          # Project documentation

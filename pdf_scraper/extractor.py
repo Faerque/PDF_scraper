@@ -1,4 +1,8 @@
 import fitz
+from pdf_scraper.logger import get_logger
+
+
+logger = get_logger()
 
 
 def extract_text_from_pdf(pdf_path: str) -> str:
@@ -28,11 +32,16 @@ def extract_text_from_pdf(pdf_path: str) -> str:
         doc = fitz.open(pdf_path)
         for page in doc:
             text += page.get_text("text") + "\n"
+        logger.info("Extracted text from: %s", pdf_path)
     except FileNotFoundError as e:
+        logger.error("File not found error while processings %s: %s",
+                     pdf_path, e)
         raise FileNotFoundError(f"File not found: {pdf_path}") from e
     except ValueError as e:
+        logger.error("Value error while processings %s: %s", pdf_path, e)
         raise ValueError(f"Invalid file path: {pdf_path}") from e
     except Exception as e:
+        logger.error("Error processings %s: %s", pdf_path, e)
         raise RuntimeError(f"Error processing {pdf_path}: {e}") from e
 
     return text

@@ -1,5 +1,9 @@
 import os
 from pdf_scraper.extractor import extract_text_from_pdf
+from pdf_scraper.database import save_to_database
+from pdf_scraper.logger import get_logger
+
+logger = get_logger()
 
 
 def process_pdfs_in_directory(directory: str, output_file: str) -> None:
@@ -24,17 +28,26 @@ def process_pdfs_in_directory(directory: str, output_file: str) -> None:
     if not os.path.exists(directory):
         raise FileNotFoundError(f"Directory not found: {directory}")
 
+    # Get all PDFs in the directory
+    pdf_files = [f for f in os.listdir(
+        directory) if f.lower().endswith('.pdf')]
+
+    # Stop execution if no PDFs are found
+    if not pdf_files:
+        logger.warning(
+            "No PDF files found in the directory: %s. Exiting.", directory)
+        return  # Stop execution
+
     with open(output_file, "w", encoding="utf-8") as out_file:
-        for filename in os.listdir(directory):
-            if filename.lower().endswith('.pdf'):
-                pdf_path = os.path.join(directory, filename)
-                print(f"Processing: {filename}")
+        for filename in pdf_files:
+            pdf_path = os.path.join(directory, filename)
+            logger.info("Processing the PDF: %s", filename)
 
-                try:
-                    extracted_text = extract_text_from_pdf(pdf_path)
-                    out_file.write(
-                        f"---- {filename} ----\n{extracted_text}\n\n")
-                except Exception as e:
-                    print(f"Error processing {filename}: {e}")
+            try:
+                extracted_text = extract_text_from_pdf(pdf_path)
+                out_file.write(f"---- {filename} ----\n{extracted_text}\n\n")
+                save_to_database(filename, extracted_text)
+            except Exception as e:
+                logger.error("Error processing %s: %s", filename, e)
 
-    print(f"\nExtraction complete. Texts saved in {output_file}")
+    logger.info("PDF processing completed")
